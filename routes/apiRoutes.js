@@ -11,7 +11,7 @@ module.exports = function(app) {
     });
 
     app.put("/api/workouts/:id", function(req, res) {
-        db.Workout.updateOne({ _id: req.params.id }, { $push: { exercise: req.body.exercise } }).then(function(dbWorkouts) {
+        db.Workout.findByIdAndUpdate({ _id: req.params.id }, { $push: { exercises: req.body } }).then(function(dbWorkouts) {
                 res.json(dbWorkouts);
             })
             .catch(function(err) {
@@ -21,7 +21,7 @@ module.exports = function(app) {
 
     app.post("/api/workouts", function(req, res) {
         db.Workout.create(req.body)
-            .then(function(req, res) {
+            .then(function(dbWorkouts) {
                 res.json(dbWorkouts);
             })
             .catch(function(err) {
